@@ -25,4 +25,9 @@ public class LightSource {
         this.position = Pair.with(this.position.getValue0() * steps * this.velocity.getValue0(),
                 this.position.getValue1() * steps * this.velocity.getValue1()) ;
     }
+
+    public void offsetPosition(Pair<Integer, Integer> minPosition){
+        this.position = Pair.with(this.getPosition().getValue0() - minPosition.getValue0(),
+                this.getPosition().getValue1() - minPosition.getValue1());
+    }
 }
