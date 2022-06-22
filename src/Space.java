@@ -101,14 +101,14 @@ public class Space {
         int maxX = maxPos.getValue0();
         int maxY = maxPos.getValue1();
         char[][] pos = new char[maxY + 1][maxX + 1];
-        for (int i = 0; i < pos.length; i++) {
-            Arrays.fill(pos[i], '.');
+        for (char[] po : pos) {
+            Arrays.fill(po, '.');
         }
         for (LightSource lightSource : this.lightSources) {
             pos[lightSource.getPosition().getValue1()][lightSource.getPosition().getValue0()] = '#';
         }
-        for (int i = 0; i < pos.length; i++) {
-            System.out.println(String.valueOf(pos[i]));
+        for (char[] po : pos) {
+            System.out.println(String.valueOf(po));
         }
     }
 }

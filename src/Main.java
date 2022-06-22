@@ -7,7 +7,7 @@ public class Main {
     {
         Space space = new Space();
         File file = new File(
-                "sample-input");
+                "input");
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line;
         while ((line = br.readLine()) != null) {
@@ -29,14 +29,13 @@ public class Main {
                             .replace(" ", "")));
             space.addLightSource(position, velocity);
         }
+        space.move_many_steps(10630);
         space.offsetPositionsToZero();
-        space.displayPos();
-        for (int i=0; i<3; i++) {
+        //space.displayPos();
+        for (int i=0; i<20; i++) {
             space.move_one_step();
             space.offsetPositionsToZero();
-            //space.showPositions();
             space.saveAsImage(i);
-            //space.displayPos();
         }
 
     }
