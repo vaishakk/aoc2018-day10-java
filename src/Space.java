@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -69,18 +70,19 @@ public class Space {
         }
     }
 
-    public void saveAsImage() throws IOException {
+    public void saveAsImage(int step) throws IOException {
         Pair<Integer, Integer> maxPos = this.getMaxPosition();
         System.out.println(maxPos);
         int maxX = maxPos.getValue0();
         int maxY = maxPos.getValue1();
-        BufferedImage theImage = new BufferedImage(maxY + 1, maxX + 1, BufferedImage.TYPE_INT_RGB);
+        BufferedImage theImage = new BufferedImage(maxX + 1, maxY + 1, BufferedImage.TYPE_INT_RGB);
+        int value = 255 << 16 | 255 << 8 | 255;
         for (LightSource lightSource : this.lightSources){
-            theImage.setRGB(lightSource.getPosition().getValue1(),
-                    lightSource.getPosition().getValue0(),
-                    255);
+            theImage.setRGB(lightSource.getPosition().getValue0(),
+                    lightSource.getPosition().getValue1(),
+                    value);
         }
-        File outputfile = new File("image.jpg");
+        File outputfile = new File(String.format("image_%d.jpg",step));
         ImageIO.write(theImage, "jpg", outputfile);
     }
 
@@ -92,5 +94,21 @@ public class Space {
 
     public void addLightSource(Pair<Integer, Integer> position, Pair<Integer, Integer> velocity) {
         this.lightSources.add(new LightSource(position, velocity));
+    }
+
+    public void displayPos() {
+        Pair<Integer, Integer> maxPos = this.getMaxPosition();
+        int maxX = maxPos.getValue0();
+        int maxY = maxPos.getValue1();
+        char[][] pos = new char[maxY + 1][maxX + 1];
+        for (int i = 0; i < pos.length; i++) {
+            Arrays.fill(pos[i], '.');
+        }
+        for (LightSource lightSource : this.lightSources) {
+            pos[lightSource.getPosition().getValue1()][lightSource.getPosition().getValue0()] = '#';
+        }
+        for (int i = 0; i < pos.length; i++) {
+            System.out.println(String.valueOf(pos[i]));
+        }
     }
 }

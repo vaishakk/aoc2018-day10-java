@@ -30,10 +30,14 @@ public class Main {
             space.addLightSource(position, velocity);
         }
         space.offsetPositionsToZero();
-        space.move_many_steps(2);
-        space.offsetPositionsToZero();
-        //space.showPositions();
-        space.saveAsImage();
+        space.displayPos();
+        for (int i=0; i<3; i++) {
+            space.move_one_step();
+            space.offsetPositionsToZero();
+            //space.showPositions();
+            space.saveAsImage(i);
+            //space.displayPos();
+        }
 
     }
 }
