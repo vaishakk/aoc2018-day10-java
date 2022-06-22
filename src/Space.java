@@ -11,18 +11,13 @@ import java.util.List;
 public class Space {
     List<LightSource> lightSources;
 
-    public Space(List<Pair<Integer, Integer>> positions, List<Pair<Integer, Integer>> velocities){
-        this.lightSources = new ArrayList<>();
-        for (int i = 0; i < positions.size(); i++){
-            this.lightSources.add(new LightSource(positions.get(i), velocities.get(i)));
-        }
-
-    }
-
     public Space() {
         this.lightSources = new ArrayList<>();
     }
 
+    public void addLightSource(Pair<Integer, Integer> position, Pair<Integer, Integer> velocity) {
+        this.lightSources.add(new LightSource(position, velocity));
+    }
     public void move_one_step(){
         for (LightSource lightSource : this.lightSources) {
             lightSource.move_one_step();
@@ -72,7 +67,6 @@ public class Space {
 
     public void saveAsImage(int step) throws IOException {
         Pair<Integer, Integer> maxPos = this.getMaxPosition();
-        System.out.println(maxPos);
         int maxX = maxPos.getValue0();
         int maxY = maxPos.getValue1();
         BufferedImage theImage = new BufferedImage(maxX + 1, maxY + 1, BufferedImage.TYPE_INT_RGB);
@@ -90,10 +84,6 @@ public class Space {
         for (LightSource lightSource : this.lightSources){
             System.out.println(lightSource.getPosition());
         }
-    }
-
-    public void addLightSource(Pair<Integer, Integer> position, Pair<Integer, Integer> velocity) {
-        this.lightSources.add(new LightSource(position, velocity));
     }
 
     public void displayPos() {

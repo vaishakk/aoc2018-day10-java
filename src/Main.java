@@ -1,13 +1,12 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+
 import org.javatuples.Pair;
 public class Main {
-    public static void main(String[] args) throws Exception
-    {
+    final static int INITIAL_POS = 10630;
+    final static int NUM_STEPS = 20;
+    private static Space scrapeInput(String filename) throws IOException {
         Space space = new Space();
-        File file = new File(
-                "input");
+        File file = new File(filename);
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line;
         while ((line = br.readLine()) != null) {
@@ -29,14 +28,15 @@ public class Main {
                             .replace(" ", "")));
             space.addLightSource(position, velocity);
         }
-        space.move_many_steps(10630);
-        space.offsetPositionsToZero();
-        //space.displayPos();
-        for (int i=0; i<20; i++) {
+        return space;
+    }
+    public static void main(String[] args) throws IOException {
+        Space space = scrapeInput("input");
+        space.move_many_steps(INITIAL_POS);
+        for (int i = 0; i < NUM_STEPS; i++) {
             space.move_one_step();
             space.offsetPositionsToZero();
-            space.saveAsImage(i);
+            space.saveAsImage(i + INITIAL_POS);
         }
-
     }
 }
