@@ -1,10 +1,10 @@
 import org.javatuples.Pair;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Space {
@@ -16,6 +16,10 @@ public class Space {
             this.lightSources.add(new LightSource(positions.get(i), velocities.get(i)));
         }
 
+    }
+
+    public Space() {
+        this.lightSources = new ArrayList<>();
     }
 
     public void move_one_step(){
@@ -37,8 +41,8 @@ public class Space {
             if (lightSource.getPosition().getValue0() > maxX){
                 maxX = lightSource.getPosition().getValue0();
             }
-            if (lightSource.getPosition().getValue0() > maxY){
-                maxX = lightSource.getPosition().getValue0();
+            if (lightSource.getPosition().getValue1() > maxY){
+                maxY = lightSource.getPosition().getValue1();
             }
         }
         return Pair.with(maxX, maxY);
@@ -51,8 +55,8 @@ public class Space {
             if (lightSource.getPosition().getValue0() < minX){
                 minX = lightSource.getPosition().getValue0();
             }
-            if (lightSource.getPosition().getValue0() < minY){
-                minY = lightSource.getPosition().getValue0();
+            if (lightSource.getPosition().getValue1() < minY){
+                minY = lightSource.getPosition().getValue1();
             }
         }
         return Pair.with(minX, minY);
@@ -67,11 +71,12 @@ public class Space {
 
     public void saveAsImage() throws IOException {
         Pair<Integer, Integer> maxPos = this.getMaxPosition();
+        System.out.println(maxPos);
         int maxX = maxPos.getValue0();
         int maxY = maxPos.getValue1();
-        BufferedImage theImage = new BufferedImage(maxX, maxY, BufferedImage.TYPE_INT_RGB);
+        BufferedImage theImage = new BufferedImage(maxY + 1, maxX + 1, BufferedImage.TYPE_INT_RGB);
         for (LightSource lightSource : this.lightSources){
-            theImage.setRGB(lightSource.getPosition().getValue0(),
+            theImage.setRGB(lightSource.getPosition().getValue1(),
                     lightSource.getPosition().getValue0(),
                     255);
         }
@@ -79,5 +84,13 @@ public class Space {
         ImageIO.write(theImage, "jpg", outputfile);
     }
 
+    public void showPositions(){
+        for (LightSource lightSource : this.lightSources){
+            System.out.println(lightSource.getPosition());
+        }
+    }
 
+    public void addLightSource(Pair<Integer, Integer> position, Pair<Integer, Integer> velocity) {
+        this.lightSources.add(new LightSource(position, velocity));
+    }
 }
